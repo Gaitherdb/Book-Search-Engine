@@ -1,14 +1,15 @@
 const { User } = require('../models');
+const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate('savedBooks');
+      return User.find();
     },
     me: async (parent, args, context) => {
       if (context.user) {
-        return await User.findOne({ _id: context.user.id }).populate('savedBooks');;
+        return await User.findOne({ _id: context.user.id });
       }
       throw new AuthenticationError('You need to be logged in!');
     },
@@ -24,8 +25,8 @@ const resolvers = {
       return ({ token, user });
     },
     // login a user, sign a token, and send it back (to client/src/components/LoginForm.js)
-    async login(parent, { username, email, password }) {
-      const user = await User.findOne({ $or: [{ username }, { email }] });
+    async login(parent, { email, password }) {
+      const user = await User.findOne({ email });
       if (!user) {
         throw new AuthenticationError('No user found!');
       }
@@ -40,11 +41,11 @@ const resolvers = {
     },
     // save a book to a user's `savedBooks` field by adding it to the set (to prevent duplicates)
     // user comes from `req.user` created in the auth middleware function
-    async saveBook(parent, { userId, bookId, authors, description, title, image, link }, context) {
+    async saveBook(parent, args, context) {
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
-          { _id: userId },
-          { $addToSet: { savedBooks: { bookId, authors, description, title, image, link } } },
+          { _id: context.user.id },
+          { $addToSet: { savedBooks: args } },
           { new: true, runValidators: true }
         );
 
@@ -53,11 +54,11 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!');
     },
     // remove a book from `savedBooks`
-    async deleteBook(parent, { bookId, authors, description, title, image, link }, context) {
+    async deleteBook(parent, { bookId }, context) {
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user.id },
-          { $pull: { savedBooks: { bookId, authors, description, title, image, link } } },
+          { $pull: { savedBooks: { bookId } } },
           { new: true, runValidators: true }
         );
 
