@@ -1,10 +1,18 @@
-// import user model
 const { User } = require('../models');
-// import sign token function from auth
 const { signToken } = require('../utils/auth');
 
-module.exports = {
-  // get a single user by either their id or their username
+const resolvers = {
+  Query: {
+    users: async () => {
+      return User.find({});
+    },
+    me: async (parent, { _id }) => {
+      const params = _id ? { _id } : {};
+      return User.findById(params);
+    },
+  },
+  Mutation: {
+    // get a single user by either their id or their username
   async getSingleUser({ user = null, params }, res) {
     const foundUser = await User.findOne({
       $or: [{ _id: user ? user._id : params.id }, { username: params.username }],
@@ -70,4 +78,9 @@ module.exports = {
     }
     return res.json(updatedUser);
   },
+}
 };
+
+
+
+module.exports = resolvers;
