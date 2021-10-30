@@ -1,11 +1,20 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
-export const QUERY_PROFILES = gql`
-  query allProfiles {
-    profiles {
+export const GET_ME = gql`
+  query me {
+    me {
       _id
-      name
-      skills
+      username
+      email
+      password
+      savedBooks {
+        bookId: String!
+        authors: [String]
+        description: String!
+        title: String!
+        image: String
+        link: String
+      }
     }
   }
 `;
