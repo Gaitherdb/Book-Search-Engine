@@ -42,7 +42,6 @@ const resolvers = {
     // save a book to a user's `savedBooks` field by adding it to the set (to prevent duplicates)
     // user comes from `req.user` created in the auth middleware function
     async saveBook(parent, args, context) {
-      console.log(args)
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
