@@ -33,9 +33,13 @@
   
   ## Usage
   Access the webpage by going to the deployed site: [Book-Search-Engine](https://bloodcurdling-beast-94043.herokuapp.com/). 
+  Test account: email: test@test.com password: !t3stmyPw0rd
 
-  If you want to run this on a local server, set the path to the Book-Search-Engine folder in the terminal. Run the entire app by typing `npm run develop`. Go to http://localhost:3000 to acesss the app and http://localhost:3001/graphql to acess the GraphQL endpoint.
-  
+  If you want to run this on a local server, set the path to the Book-Search-Engine folder in the terminal. Run the entire app by typing `npm run develop`. Go to http://localhost:3000 to accesss the app and http://localhost:3001/graphql to acess the GraphQL endpoint.
+  ![SearchBooks](https://user-images.githubusercontent.com/83731627/139782593-c3dd8b03-1d87-4f15-ad91-850f7245646c.png)
+![viewsavedbooks](https://user-images.githubusercontent.com/83731627/139782601-4e40080d-b99d-4863-8c3d-7fb0072b0b52.png)
+![logingooglebooks](https://user-images.githubusercontent.com/83731627/139782605-928dcf57-760b-4e0d-8450-97f893760586.png)
+
 
   ## License  
   This project is licensed under the terms of the [MIT License](https://opensource.org/licenses/MIT).
